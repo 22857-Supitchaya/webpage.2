@@ -1,643 +1,95 @@
 /* =========================================================
-   MY OCEAN WORLD
-   SCI-FI INTERACTION SYSTEM
-   ========================================================= */
+   MY OCEAN
+   REALISTIC SCI-FI INTERACTION CORE
+========================================================= */
 
 
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================================================
+   LOADING SCREEN
+========================================================= */
 
+window.addEventListener(
+    "load",
+    () => {
 
-    /* =====================================================
-       01 INITIAL THEME
-       ===================================================== */
-
-    const savedTheme =
-        localStorage.getItem("ocean-theme") || "day";
-
-    document.body.setAttribute(
-        "data-theme",
-        savedTheme
-    );
-
-
-    /* =====================================================
-       02 CREATE THEME SWITCHER
-       ===================================================== */
-
-    const themeSwitcher =
-        document.createElement("div");
-
-    themeSwitcher.className =
-        "theme-switcher";
-
-    themeSwitcher.innerHTML = `
-        <button
-            class="theme-btn"
-            data-theme="day"
-            title="กลางวัน"
-            aria-label="เปลี่ยนเป็นธีมกลางวัน"
-        >
-            ☀️
-        </button>
-
-        <button
-            class="theme-btn"
-            data-theme="night"
-            title="กลางคืน"
-            aria-label="เปลี่ยนเป็นธีมกลางคืน"
-        >
-            🌙
-        </button>
-    `;
-
-    document.body.appendChild(
-        themeSwitcher
-    );
-
-
-    const themeButtons =
-        document.querySelectorAll(
-            ".theme-btn"
-        );
-
-
-    function updateThemeButtons() {
-
-        const currentTheme =
-            document.body.getAttribute(
-                "data-theme"
+        const loader =
+            document.querySelector(
+                ".loading-screen"
             );
 
-        themeButtons.forEach(
-            button => {
-
-                button.classList.toggle(
-                    "active",
-                    button.dataset.theme ===
-                    currentTheme
-                );
-
-            }
-        );
-
-    }
-
-
-    updateThemeButtons();
-
-
-    themeButtons.forEach(
-        button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const theme =
-                        button.dataset.theme;
-
-                    document.body.setAttribute(
-                        "data-theme",
-                        theme
-                    );
-
-                    localStorage.setItem(
-                        "ocean-theme",
-                        theme
-                    );
-
-                    updateThemeButtons();
-
-                    createThemePulse();
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       03 THEME CHANGE PULSE
-       ===================================================== */
-
-    function createThemePulse() {
-
-        const pulse =
-            document.createElement("div");
-
-        pulse.style.position =
-            "fixed";
-
-        pulse.style.left =
-            "50%";
-
-        pulse.style.top =
-            "50%";
-
-        pulse.style.width =
-            "20px";
-
-        pulse.style.height =
-            "20px";
-
-        pulse.style.borderRadius =
-            "50%";
-
-        pulse.style.transform =
-            "translate(-50%, -50%)";
-
-        pulse.style.border =
-            "2px solid var(--primary)";
-
-        pulse.style.boxShadow =
-            "0 0 40px var(--primary)";
-
-        pulse.style.pointerEvents =
-            "none";
-
-        pulse.style.zIndex =
-            "999999";
-
-        pulse.style.transition =
-            "all .8s ease-out";
-
-        document.body.appendChild(
-            pulse
-        );
-
-
-        requestAnimationFrame(
-            () => {
-
-                pulse.style.width =
-                    "180vw";
-
-                pulse.style.height =
-                    "180vw";
-
-                pulse.style.opacity =
-                    "0";
-
-            }
-        );
-
-
-        setTimeout(
-            () => pulse.remove(),
-            850
-        );
-
-    }
-
-
-    /* =====================================================
-       04 PAGE LOADING SCREEN
-       ===================================================== */
-
-    const loader =
-        document.querySelector(
-            ".loading-screen"
-        );
-
-
-    if (loader) {
-
-        document.body.style.overflow =
-            "hidden";
-
-
-        window.addEventListener(
-            "load",
-            () => {
-
-                setTimeout(
-                    () => {
-
-                        loader.classList.add(
-                            "hide"
-                        );
-
-                        document.body.style.overflow =
-                            "";
-
-                    },
-                    1300
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       05 CREATE RADAR
-       ===================================================== */
-
-    const radar =
-        document.createElement("div");
-
-    radar.className =
-        "ocean-radar";
-
-    radar.innerHTML = `
-
-        <div class="radar-grid-x"></div>
-
-        <div class="radar-grid-y"></div>
-
-        <div class="radar-sweep"></div>
-
-        <div class="radar-dot one"></div>
-
-        <div class="radar-dot two"></div>
-
-        <div class="radar-dot three"></div>
-
-        <div class="radar-label">
-            MARINE SCAN
-        </div>
-
-    `;
-
-    document.body.appendChild(
-        radar
-    );
-
-
-    /* =====================================================
-       06 CREATE DEPTH METER
-       ===================================================== */
-
-    const depthMeter =
-        document.createElement("div");
-
-    depthMeter.className =
-        "depth-meter";
-
-    depthMeter.innerHTML = `
-
-        <div class="depth-progress"></div>
-
-        <div class="depth-text">
-            DEPTH 0 M
-        </div>
-
-    `;
-
-    document.body.appendChild(
-        depthMeter
-    );
-
-
-    const depthProgress =
-        depthMeter.querySelector(
-            ".depth-progress"
-        );
-
-    const depthText =
-        depthMeter.querySelector(
-            ".depth-text"
-        );
-
-
-    /* =====================================================
-       07 DEPTH SCROLL SYSTEM
-       ===================================================== */
-
-    function updateDepth() {
-
-        const scrollTop =
-            window.scrollY;
-
-        const maxScroll =
-            document.documentElement.scrollHeight
-            -
-            window.innerHeight;
-
-        let depth =
-            maxScroll > 0
-            ?
-            scrollTop / maxScroll
-            :
-            0;
-
-
-        depth =
-            Math.min(
-                Math.max(depth, 0),
-                1
-            );
-
-
-        document.body.style.setProperty(
-            "--depth",
-            depth
-        );
-
-
-        depthProgress.style.height =
-            `${depth * 100}%`;
-
-
-        const fakeMeters =
-            Math.round(
-                depth * 4500
-            );
-
-
-        depthText.textContent =
-            `DEPTH ${fakeMeters} M`;
-
-    }
-
-
-    window.addEventListener(
-        "scroll",
-        updateDepth,
-        {
-            passive: true
-        }
-    );
-
-
-    updateDepth();
-
-
-    /* =====================================================
-       08 MOUSE LIGHT
-       ===================================================== */
-
-    window.addEventListener(
-        "mousemove",
-        event => {
-
-            document.body.style.setProperty(
-                "--mouse-x",
-                `${event.clientX}px`
-            );
-
-            document.body.style.setProperty(
-                "--mouse-y",
-                `${event.clientY}px`
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       09 CLICK RIPPLE
-       ===================================================== */
-
-    document.addEventListener(
-        "click",
-        event => {
-
-            const ripple =
-                document.createElement("span");
-
-            ripple.className =
-                "click-ripple";
-
-            ripple.style.left =
-                `${event.clientX}px`;
-
-            ripple.style.top =
-                `${event.clientY}px`;
-
-            document.body.appendChild(
-                ripple
-            );
-
+        if(loader){
 
             setTimeout(
                 () => {
 
-                    ripple.remove();
+                    loader.classList.add(
+                        "loaded"
+                    );
 
                 },
-                850
+                1000
             );
 
         }
+
+    }
+);
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+const particleField =
+    document.querySelector(
+        ".particle-field"
     );
 
+if(particleField){
 
-    /* =====================================================
-       10 HUD CORNERS
-       ===================================================== */
+    for(let i = 0; i < 110; i++){
 
-    const corners = [
-
-        "hud-tl",
-
-        "hud-tr",
-
-        "hud-bl",
-
-        "hud-br"
-
-    ];
-
-
-    corners.forEach(
-        name => {
-
-            const element =
-                document.createElement(
-                    "div"
-                );
-
-            element.className =
-                `hud-corner ${name}`;
-
-            document.body.appendChild(
-                element
+        const particle =
+            document.createElement(
+                "span"
             );
 
-        }
-    );
+        particle.className =
+            "particle";
 
+        particle.style.left =
+            Math.random() * 100 + "%";
 
-    /* =====================================================
-       11 SCROLL REVEAL
-       ===================================================== */
+        particle.style.animationDuration =
+            (8 + Math.random() * 20) + "s";
 
-    const revealTargets =
-        document.querySelectorAll(
+        particle.style.animationDelay =
+            (-Math.random() * 20) + "s";
 
-            `
-            .page-hero,
-            .profile-section,
-            .about-card,
-            .info-box,
-            .hobby-card,
-            .timeline-item,
-            .contact-card,
-            .highlight-card
-            `
+        particle.style.opacity =
+            .15 + Math.random() * .6;
 
+        particleField.appendChild(
+            particle
         );
 
+    }
 
-    revealTargets.forEach(
-        element => {
+}
 
-            element.classList.add(
-                "reveal-element"
-            );
 
-        }
+/* =========================================================
+   BUBBLES
+========================================================= */
+
+const bubbleField =
+    document.querySelector(
+        ".bubble-field"
     );
 
+if(bubbleField){
 
-    const revealObserver =
-        new IntersectionObserver(
-
-            entries => {
-
-                entries.forEach(
-                    entry => {
-
-                        if (
-                            entry.isIntersecting
-                        ) {
-
-                            entry.target.classList.add(
-                                "revealed"
-                            );
-
-                        }
-
-                    }
-                );
-
-            },
-
-            {
-                threshold: 0.12
-            }
-
-        );
-
-
-    revealTargets.forEach(
-        element => {
-
-            revealObserver.observe(
-                element
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       12 3D CARD TILT
-       ===================================================== */
-
-    const cards =
-        document.querySelectorAll(
-
-            `
-            .info-box,
-            .hobby-card,
-            .contact-card,
-            .about-card,
-            .timeline-content
-            `
-
-        );
-
-
-    cards.forEach(
-        card => {
-
-            card.addEventListener(
-                "mousemove",
-                event => {
-
-                    const rect =
-                        card.getBoundingClientRect();
-
-
-                    const x =
-                        event.clientX
-                        -
-                        rect.left;
-
-
-                    const y =
-                        event.clientY
-                        -
-                        rect.top;
-
-
-                    const centerX =
-                        rect.width / 2;
-
-
-                    const centerY =
-                        rect.height / 2;
-
-
-                    const rotateX =
-                        (
-                            centerY - y
-                        )
-                        /
-                        20;
-
-
-                    const rotateY =
-                        (
-                            x - centerX
-                        )
-                        /
-                        20;
-
-
-                    card.style.transform = `
-
-                        perspective(800px)
-
-                        rotateX(
-                            ${rotateX}deg
-                        )
-
-                        rotateY(
-                            ${rotateY}deg
-                        )
-
-                        translateY(-6px)
-
-                    `;
-
-                }
-            );
-
-
-            card.addEventListener(
-                "mouseleave",
-                () => {
-
-                    card.style.transform =
-                        "";
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       13 RANDOM BUBBLES
-       ===================================================== */
-
-    function createBubble() {
+    for(let i = 0; i < 25; i++){
 
         const bubble =
             document.createElement(
@@ -645,419 +97,787 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
         bubble.className =
-            "dynamic-bubble";
-
+            "bubble";
 
         const size =
-            Math.random()
-            *
-            25
-            +
-            6;
-
+            5 + Math.random() * 25;
 
         bubble.style.width =
-            `${size}px`;
+            size + "px";
 
         bubble.style.height =
-            `${size}px`;
+            size + "px";
 
         bubble.style.left =
-            `${Math.random() * 100}%`;
-
-
-        const duration =
-            Math.random()
-            *
-            7
-            +
-            8;
-
+            Math.random() * 100 + "%";
 
         bubble.style.animationDuration =
-            `${duration}s`;
+            (9 + Math.random() * 18) + "s";
 
+        bubble.style.animationDelay =
+            (-Math.random() * 20) + "s";
 
-        document.body.appendChild(
+        bubbleField.appendChild(
             bubble
         );
 
-
-        setTimeout(
-            () => {
-
-                bubble.remove();
-
-            },
-            duration * 1000
-        );
-
     }
 
-
-    setInterval(
-        createBubble,
-        850
-    );
+}
 
 
-    /* =====================================================
-       14 RANDOM FISH
-       ===================================================== */
+/* =========================================================
+   MOUSE LIGHT
+========================================================= */
 
-    const fishList = [
+document.addEventListener(
+    "mousemove",
+    (event) => {
 
-        "🐠",
-
-        "🐟",
-
-        "🐡",
-
-        "🐠",
-
-        "🐟"
-
-    ];
-
-
-    function createFish() {
-
-        const fish =
-            document.createElement(
-                "div"
+        document.documentElement
+            .style.setProperty(
+                "--mx",
+                event.clientX + "px"
             );
 
-        fish.className =
-            "ai-fish";
-
-
-        fish.textContent =
-            fishList[
-                Math.floor(
-                    Math.random()
-                    *
-                    fishList.length
-                )
-            ];
-
-
-        fish.style.top =
-            `${15 + Math.random() * 70}%`;
-
-
-        fish.style.fontSize =
-            `${25 + Math.random() * 25}px`;
-
-
-        const duration =
-            14
-            +
-            Math.random()
-            *
-            15;
-
-
-        fish.style.animationDuration =
-            `${duration}s`;
-
-
-        fish.style.opacity =
-            `${0.25 + Math.random() * 0.55}`;
-
-
-        document.body.appendChild(
-            fish
-        );
-
-
-        setTimeout(
-            () => {
-
-                fish.remove();
-
-            },
-            duration * 1000
-        );
+        document.documentElement
+            .style.setProperty(
+                "--my",
+                event.clientY + "px"
+            );
 
     }
+);
 
 
-    setInterval(
-        createFish,
-        5000
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+const cursorCore =
+    document.querySelector(
+        ".cursor-core"
     );
 
+const cursorRing =
+    document.querySelector(
+        ".cursor-ring"
+    );
 
-    /* =====================================================
-       15 NAV ACTIVE AUTO
-       ===================================================== */
+if(cursorCore && cursorRing){
 
-    const currentPage =
-        location.pathname
-        .split("/")
-        .pop()
-        ||
-        "index.html";
+    let mouseX = 0;
+    let mouseY = 0;
 
-
-    document
-        .querySelectorAll(
-            ".nav-links a"
-        )
-        .forEach(
-            link => {
-
-                const href =
-                    link.getAttribute(
-                        "href"
-                    );
+    let ringX = 0;
+    let ringY = 0;
 
 
-                link.classList.toggle(
-                    "active",
-                    href === currentPage
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       16 MAGNETIC NAVIGATION
-       ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".nav-links a"
-        )
-        .forEach(
-            link => {
-
-                link.addEventListener(
-                    "mousemove",
-                    event => {
-
-                        const rect =
-                            link.getBoundingClientRect();
-
-
-                        const x =
-                            event.clientX
-                            -
-                            rect.left
-                            -
-                            rect.width / 2;
-
-
-                        const y =
-                            event.clientY
-                            -
-                            rect.top
-                            -
-                            rect.height / 2;
-
-
-                        link.style.transform = `
-
-                            translate(
-                                ${x * 0.08}px,
-                                ${y * 0.08}px
-                            )
-
-                            translateY(-2px)
-
-                        `;
-
-                    }
-                );
-
-
-                link.addEventListener(
-                    "mouseleave",
-                    () => {
-
-                        link.style.transform =
-                            "";
-
-                    }
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       17 PROFILE IMAGE PARALLAX
-       ===================================================== */
-
-    const profileImage =
-        document.querySelector(
-            ".profile-image-wrapper"
-        );
-
-
-    if (profileImage) {
-
-        window.addEventListener(
-            "mousemove",
-            event => {
-
-                const moveX =
-                    (
-                        event.clientX
-                        /
-                        window.innerWidth
-                        -
-                        0.5
-                    )
-                    *
-                    10;
-
-
-                const moveY =
-                    (
-                        event.clientY
-                        /
-                        window.innerHeight
-                        -
-                        0.5
-                    )
-                    *
-                    10;
-
-
-                profileImage.style.transform = `
-
-                    translate(
-                        ${moveX}px,
-                        ${moveY}px
-                    )
-
-                `;
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       18 HERO PARALLAX
-       ===================================================== */
-
-    const heroTitle =
-        document.querySelector(
-            ".page-hero h1"
-        );
-
-
-    if (heroTitle) {
-
-        window.addEventListener(
-            "mousemove",
-            event => {
-
-                const x =
-                    (
-                        event.clientX
-                        /
-                        window.innerWidth
-                        -
-                        0.5
-                    )
-                    *
-                    12;
-
-
-                const y =
-                    (
-                        event.clientY
-                        /
-                        window.innerHeight
-                        -
-                        0.5
-                    )
-                    *
-                    8;
-
-
-                heroTitle.style.marginLeft =
-                    `${x}px`;
-
-                heroTitle.style.marginTop =
-                    `${20 + y}px`;
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       19 RADAR REACTION TO MOUSE
-       ===================================================== */
-
-    const radarDots =
-        document.querySelectorAll(
-            ".radar-dot"
-        );
-
-
-    window.addEventListener(
+    document.addEventListener(
         "mousemove",
-        event => {
+        (event) => {
 
-            const percentageX =
-                event.clientX
-                /
-                window.innerWidth;
+            mouseX =
+                event.clientX;
 
+            mouseY =
+                event.clientY;
 
-            const percentageY =
-                event.clientY
-                /
-                window.innerHeight;
+            cursorCore.style.left =
+                mouseX + "px";
 
-
-            if (
-                radarDots[0]
-            ) {
-
-                radarDots[0].style.left =
-                    `${
-                        15
-                        +
-                        percentageX
-                        *
-                        65
-                    }%`;
-
-                radarDots[0].style.top =
-                    `${
-                        15
-                        +
-                        percentageY
-                        *
-                        65
-                    }%`;
-
-            }
+            cursorCore.style.top =
+                mouseY + "px";
 
         }
     );
 
 
-    /* =====================================================
-       20 PAGE READY
-       ===================================================== */
+    function animateCursor(){
 
-    console.log(
-        "%c🌊 MY OCEAN WORLD READY",
-        `
-        color:#6ffcff;
-        font-size:18px;
-        font-weight:bold;
-        `
+        ringX +=
+            (mouseX - ringX) * .18;
+
+        ringY +=
+            (mouseY - ringY) * .18;
+
+        cursorRing.style.left =
+            ringX + "px";
+
+        cursorRing.style.top =
+            ringY + "px";
+
+        requestAnimationFrame(
+            animateCursor
+        );
+
+    }
+
+    animateCursor();
+
+
+    document.querySelectorAll(
+        "a,button,.tilt-card"
+    ).forEach(
+        element => {
+
+            element.addEventListener(
+                "mouseenter",
+                () => {
+
+                    cursorRing.classList.add(
+                        "hover"
+                    );
+
+                }
+            );
+
+            element.addEventListener(
+                "mouseleave",
+                () => {
+
+                    cursorRing.classList.remove(
+                        "hover"
+                    );
+
+                }
+            );
+
+        }
     );
 
-});
+}
+
+
+/* =========================================================
+   WATER SPLASH CLICK
+========================================================= */
+
+document.addEventListener(
+    "click",
+    (event) => {
+
+        const splash =
+            document.createElement(
+                "div"
+            );
+
+        splash.style.position =
+            "fixed";
+
+        splash.style.left =
+            event.clientX + "px";
+
+        splash.style.top =
+            event.clientY + "px";
+
+        splash.style.width =
+            "15px";
+
+        splash.style.height =
+            "15px";
+
+        splash.style.border =
+            "2px solid #65f6ff";
+
+        splash.style.borderRadius =
+            "50%";
+
+        splash.style.pointerEvents =
+            "none";
+
+        splash.style.zIndex =
+            "99998";
+
+        splash.style.transform =
+            "translate(-50%,-50%)";
+
+        document.body.appendChild(
+            splash
+        );
+
+
+        splash.animate(
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.2)",
+
+                    opacity:1
+                },
+
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(5)",
+
+                    opacity:0
+                }
+            ],
+            {
+                duration:800,
+                easing:"ease-out"
+            }
+        );
+
+
+        for(let i = 0; i < 8; i++){
+
+            const drop =
+                document.createElement(
+                    "span"
+                );
+
+            drop.style.position =
+                "fixed";
+
+            drop.style.left =
+                event.clientX + "px";
+
+            drop.style.top =
+                event.clientY + "px";
+
+            drop.style.width =
+                "4px";
+
+            drop.style.height =
+                "4px";
+
+            drop.style.borderRadius =
+                "50%";
+
+            drop.style.background =
+                "#65f6ff";
+
+            drop.style.boxShadow =
+                "0 0 10px #65f6ff";
+
+            drop.style.pointerEvents =
+                "none";
+
+            drop.style.zIndex =
+                "99998";
+
+            document.body.appendChild(
+                drop
+            );
+
+
+            const angle =
+                (Math.PI * 2 / 8) * i;
+
+            const distance =
+                30 + Math.random() * 40;
+
+
+            drop.animate(
+                [
+                    {
+                        transform:
+                            "translate(-50%,-50%) scale(1)",
+                        opacity:1
+                    },
+
+                    {
+                        transform:
+                            `translate(
+                                ${Math.cos(angle) * distance}px,
+                                ${Math.sin(angle) * distance}px
+                            )
+                            scale(0)`,
+                        opacity:0
+                    }
+                ],
+                {
+                    duration:
+                        500 + Math.random() * 300,
+
+                    easing:
+                        "cubic-bezier(.2,.8,.2,1)"
+                }
+            );
+
+
+            setTimeout(
+                () => drop.remove(),
+                900
+            );
+
+        }
+
+
+        setTimeout(
+            () => splash.remove(),
+            900
+        );
+
+    }
+);
+
+
+/* =========================================================
+   SCROLL DEPTH
+========================================================= */
+
+function updateDepth(){
+
+    const maxScroll =
+        document.documentElement
+            .scrollHeight -
+        window.innerHeight;
+
+
+    const currentScroll =
+        window.scrollY;
+
+
+    const progress =
+        maxScroll > 0
+        ? currentScroll / maxScroll
+        : 0;
+
+
+    const depth =
+        Math.round(
+            progress * 4500
+        );
+
+
+    document.documentElement
+        .style.setProperty(
+            "--depth",
+            progress
+        );
+
+
+    const hudDepth =
+        document.getElementById(
+            "hudDepth"
+        );
+
+    if(hudDepth){
+
+        hudDepth.textContent =
+            String(depth)
+                .padStart(4,"0")
+            + "M";
+
+    }
+
+
+    const depthDisplay =
+        document.getElementById(
+            "depthDisplay"
+        );
+
+    if(depthDisplay){
+
+        depthDisplay.textContent =
+            String(depth)
+                .padStart(4,"0")
+            + " M";
+
+    }
+
+
+    const depthBar =
+        document.getElementById(
+            "depthBar"
+        );
+
+    if(depthBar){
+
+        depthBar.style.width =
+            progress * 100 + "%";
+
+    }
+
+}
+
+window.addEventListener(
+    "scroll",
+    updateDepth,
+    {
+        passive:true
+    }
+);
+
+updateDepth();
+
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+
+const revealObserver =
+    new IntersectionObserver(
+        entries => {
+
+            entries.forEach(
+                entry => {
+
+                    if(
+                        entry.isIntersecting
+                    ){
+
+                        entry.target.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }
+            );
+
+        },
+        {
+            threshold:.12
+        }
+    );
+
+
+document.querySelectorAll(
+    ".reveal"
+).forEach(
+    element => {
+
+        revealObserver.observe(
+            element
+        );
+
+    }
+);
+
+
+/* =========================================================
+   3D CARD TILT
+========================================================= */
+
+document.querySelectorAll(
+    ".tilt-card"
+).forEach(
+    card => {
+
+        card.addEventListener(
+            "mousemove",
+            event => {
+
+                const rect =
+                    card.getBoundingClientRect();
+
+                const x =
+                    event.clientX -
+                    rect.left;
+
+                const y =
+                    event.clientY -
+                    rect.top;
+
+                const centerX =
+                    rect.width / 2;
+
+                const centerY =
+                    rect.height / 2;
+
+                const rotateX =
+                    ((y - centerY) /
+                    centerY) * -5;
+
+                const rotateY =
+                    ((x - centerX) /
+                    centerX) * 5;
+
+
+                card.style.transform =
+                    `
+                    perspective(900px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    translateY(-6px)
+                    `;
+
+            }
+        );
+
+
+        card.addEventListener(
+            "mouseleave",
+            () => {
+
+                card.style.transform =
+                    "";
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MAGNETIC BUTTONS
+========================================================= */
+
+document.querySelectorAll(
+    ".magnetic"
+).forEach(
+    button => {
+
+        button.addEventListener(
+            "mousemove",
+            event => {
+
+                const rect =
+                    button.getBoundingClientRect();
+
+                const x =
+                    event.clientX -
+                    rect.left -
+                    rect.width / 2;
+
+                const y =
+                    event.clientY -
+                    rect.top -
+                    rect.height / 2;
+
+
+                button.style.transform =
+                    `
+                    translate(
+                        ${x * .08}px,
+                        ${y * .08}px
+                    )
+                    `;
+
+            }
+        );
+
+
+        button.addEventListener(
+            "mouseleave",
+            () => {
+
+                button.style.transform =
+                    "";
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   THEME SYSTEM
+========================================================= */
+
+const themeButton =
+    document.getElementById(
+        "themeToggle"
+    );
+
+
+let deepNight =
+    localStorage.getItem(
+        "myOceanTheme"
+    ) === "deep";
+
+
+function applyTheme(){
+
+    if(deepNight){
+
+        document.documentElement
+            .style.setProperty(
+                "--cyan",
+                "#9b8cff"
+            );
+
+        document.documentElement
+            .style.setProperty(
+                "--blue",
+                "#3459ff"
+            );
+
+        if(themeButton){
+
+            themeButton.textContent =
+                "🌙";
+
+        }
+
+    }else{
+
+        document.documentElement
+            .style.setProperty(
+                "--cyan",
+                "#65f6ff"
+            );
+
+        document.documentElement
+            .style.setProperty(
+                "--blue",
+                "#168cff"
+            );
+
+        if(themeButton){
+
+            themeButton.textContent =
+                "☀️";
+
+        }
+
+    }
+
+}
+
+
+if(themeButton){
+
+    themeButton.addEventListener(
+        "click",
+        () => {
+
+            deepNight =
+                !deepNight;
+
+            localStorage.setItem(
+                "myOceanTheme",
+                deepNight
+                ? "deep"
+                : "ocean"
+            );
+
+            applyTheme();
+
+        }
+    );
+
+}
+
+applyTheme();
+
+
+/* =========================================================
+   ORB PARALLAX
+========================================================= */
+
+const orb =
+    document.querySelector(
+        ".ocean-orb"
+    );
+
+
+if(orb){
+
+    document.addEventListener(
+        "mousemove",
+        event => {
+
+            const x =
+                (event.clientX /
+                window.innerWidth -
+                .5) * 18;
+
+            const y =
+                (event.clientY /
+                window.innerHeight -
+                .5) * 18;
+
+
+            orb.style.marginLeft =
+                x + "px";
+
+            orb.style.marginTop =
+                y + "px";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RANDOM FISH SPAWN
+========================================================= */
+
+const fishField =
+    document.querySelector(
+        ".fish-field"
+    );
+
+
+if(fishField){
+
+    const fishCharacters =
+        [
+            "🐠",
+            "🐟",
+            "🐡"
+        ];
+
+
+    setInterval(
+        () => {
+
+            const fish =
+                document.createElement(
+                    "span"
+                );
+
+            fish.className =
+                "ocean-fish";
+
+            fish.textContent =
+                fishCharacters[
+                    Math.floor(
+                        Math.random() *
+                        fishCharacters.length
+                    )
+                ];
+
+            fish.style.top =
+                (10 + Math.random()*75)
+                + "%";
+
+            fish.style.animationDuration =
+                (20 + Math.random()*25)
+                + "s";
+
+            fishField.appendChild(
+                fish
+            );
+
+
+            setTimeout(
+                () => fish.remove(),
+                50000
+            );
+
+        },
+        7000
+    );
+
+}
+
+
+/* =========================================================
+   CONSOLE SYSTEM
+========================================================= */
+
+console.log(
+`
+╔══════════════════════════════════════╗
+║       MY OCEAN // ONLINE              ║
+╠══════════════════════════════════════╣
+║ DEEP SEA ENGINE ............ ACTIVE  ║
+║ RADAR ...................... ACTIVE  ║
+║ DEPTH SENSOR ............... ACTIVE  ║
+║ PARTICLE FIELD ............. ACTIVE  ║
+║ WATER CAUSTICS ............. ACTIVE  ║
+║ CURSOR SYSTEM .............. ACTIVE  ║
+║ SPLASH ENGINE .............. ACTIVE  ║
+║                                      ║
+║      WELCOME TO THE OCEAN 🌊         ║
+╚══════════════════════════════════════╝
+`
+);

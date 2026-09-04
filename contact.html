@@ -10,14 +10,19 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="description"
-        content="ข้อมูลติดต่อของสุพิชญา บุตรต๊ะ"
+    <title>
+        MY OCEAN // CONTACT
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
     >
 
-    <title>CONTACT // AQUA-X</title>
-
-    <link rel="stylesheet" href="style.css">
+    <script
+        src="script.js"
+        defer
+    ></script>
 
 </head>
 
@@ -25,85 +30,112 @@
 <body data-page="contact">
 
 
-    <div class="cursor-glow"></div>
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
+    <div class="loading-screen">
 
+        <div class="loading-core">
 
-    <!-- BACKGROUND -->
+            <div class="loading-orbit"></div>
 
-    <div class="ocean-background" aria-hidden="true">
+            <div class="loading-orbit orbit-2"></div>
 
-        <div class="deep-gradient"></div>
-
-        <div class="sun-rays"></div>
-
-        <div class="ocean-grid"></div>
-
-
-        <div class="bubble-field">
-
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
-            <span class="bubble"></span>
+            <div class="loading-center">
+                📡
+            </div>
 
         </div>
 
+        <div class="loading-title">
+            CONTACT
+        </div>
 
-        <div class="fish fish-1">🐠</div>
-        <div class="fish fish-2">🐟</div>
-        <div class="fish fish-3">🐡</div>
-        <div class="fish fish-4">🐠</div>
-        <div class="fish fish-5">🐟</div>
+        <div class="loading-subtitle">
+            OPENING COMMUNICATION CHANNEL
+        </div>
 
+        <div class="loading-bar">
+            <span></span>
+        </div>
 
-        <div class="jellyfish jelly-1">🪼</div>
-        <div class="jellyfish jelly-2">🪼</div>
-
-
-        <div class="coral coral-left">🪸</div>
-        <div class="coral coral-right">🪸</div>
+        <div class="loading-status">
+            SIGNAL CONNECTION...
+        </div>
 
     </div>
 
 
-    <!-- HUD -->
+    <div class="ocean-world">
 
-    <div class="hud hud-top-left">
-        <span>COMMUNICATION</span>
-        <strong>CONTACT_005</strong>
+        <div class="water-caustics"></div>
+
+        <div class="god-rays"></div>
+
+        <div class="deep-fog"></div>
+
+        <div class="particle-field"></div>
+
+        <div class="bubble-field"></div>
+
+        <div class="fish-field">
+
+            <span class="ocean-fish fish-a">
+                🐠
+            </span>
+
+            <span class="ocean-fish fish-d">
+                🐟
+            </span>
+
+        </div>
+
+        <div class="coral coral-left">
+            🪸
+        </div>
+
     </div>
 
-    <div class="hud hud-top-right">
-        <span>CHANNEL</span>
-        <strong>OPEN</strong>
+
+    <div class="cursor-core"></div>
+
+    <div class="cursor-ring"></div>
+
+
+    <div class="hud hud-left">
+
+        COMMUNICATION
+
+        <br>
+
+        SIGNAL:
+        <b>READY</b>
+
     </div>
 
 
-    <!-- NAV -->
+    <div class="hud hud-right">
+
+        DEPTH
+
+        <strong id="hudDepth">
+            0000M
+        </strong>
+
+    </div>
+
 
     <header class="site-header">
 
-        <nav class="navbar container">
+        <nav class="navbar">
 
-            <a href="index.html" class="logo">
+            <a
+                href="index.html"
+                class="brand"
+            >
 
-                <span class="logo-mark">
-                    S
+                <span class="brand-symbol">
+                    🌊
                 </span>
 
-                <span>
-                    SUPITCHAYA
-                    <b>//</b>
-                    AQUA-X
-                </span>
+                MY OCEAN
 
             </a>
 
@@ -111,35 +143,36 @@
             <div class="nav-links">
 
                 <a href="index.html">
-                    <span>01</span>
-                    หน้าแรก
+                    HOME
                 </a>
 
                 <a href="profile.html">
-                    <span>02</span>
-                    ประวัติส่วนตัว
+                    PROFILE
                 </a>
 
                 <a href="education.html">
-                    <span>03</span>
-                    การศึกษา
+                    EDUCATION
                 </a>
 
                 <a href="hobby.html">
-                    <span>04</span>
-                    งานอดิเรก
+                    HOBBIES
                 </a>
 
-                <a href="contact.html" class="active">
-                    <span>05</span>
-                    ติดต่อ
+                <a
+                    href="contact.html"
+                    class="active"
+                >
+                    CONTACT
                 </a>
 
             </div>
 
 
-            <button class="menu-toggle">
-                ☰
+            <button
+                class="theme-button"
+                id="themeToggle"
+            >
+                ☀️
             </button>
 
         </nav>
@@ -150,137 +183,114 @@
     <main>
 
 
-        <!-- HERO -->
+        <section class="page-hero">
 
-        <section class="page-hero section-container">
+            <div class="reveal">
 
-            <span class="eyebrow">
-                05 // COMMUNICATION TERMINAL
-            </span>
-
-            <h1>
-                Let's
-                <span>Connect</span>
-            </h1>
-
-            <p>
-                หากต้องการพูดคุยหรือรู้จักฉันมากขึ้น
-                สามารถติดต่อได้ตามช่องทางด้านล่างนี้เลย
-            </p>
-
-        </section>
-
-
-        <!-- CONTACT -->
-
-        <section class="contact-section section-container">
-
-
-            <div class="contact-intro reveal">
-
-                <span class="eyebrow">
-                    SAY HELLO // CHANNEL READY
+                <span class="section-kicker">
+                    04 // CONTACT
                 </span>
 
-                <h2>
-                    สามารถติดต่อ
+                <h1>
+                    LET'S
                     <span>
-                        ฉันได้ที่
+                        CONNECT
                     </span>
-                </h2>
+                </h1>
 
                 <p>
-                    ยินดีที่ได้รู้จักทุกคน
-                    และขอบคุณที่แวะเข้ามาเยี่ยมชม
-                    Portfolio ของฉัน
+                    ขอบคุณที่ดำดิ่งเข้ามาสำรวจโลกของฉัน
                 </p>
 
             </div>
 
+        </section>
+
+
+        <section class="content-section">
 
             <div class="contact-grid">
 
 
-                <a
-                    href="mailto:gamhom181154@email.com"
-                    class="contact-card hologram-card reveal"
-                >
+                <article class="contact-card tilt-card reveal">
 
                     <div class="contact-icon">
-                        ✉️
+                        💌
                     </div>
 
-                    <div>
+                    <span>
+                        CHANNEL 01
+                    </span>
 
-                        <small>
-                            EMAIL
-                        </small>
+                    <h2>
+                        EMAIL
+                    </h2>
 
-                        <h3>
-                            gamhom181154@email.com
-                        </h3>
+                    <p>
+                        gamhom181154@email.com
+                    </p>
 
-                        <span>
-                            ส่งอีเมลถึงฉัน →
-                        </span>
+                    <a
+                        href="mailto:gamhom181154@email.com"
+                        class="ocean-button secondary"
+                    >
+                        OPEN CHANNEL
+                    </a>
 
-                    </div>
-
-                </a>
+                </article>
 
 
-                <div
-                    class="contact-card hologram-card reveal"
-                >
+                <article class="contact-card tilt-card reveal">
 
                     <div class="contact-icon">
                         🌐
                     </div>
 
-                    <div>
+                    <span>
+                        CHANNEL 02
+                    </span>
 
-                        <small>
-                            WEBSITE
-                        </small>
+                    <h2>
+                        PORTFOLIO
+                    </h2>
 
-                        <h3>
-                            My Ocean Portfolio
-                        </h3>
+                    <p>
+                        MY OCEAN WORLD
+                    </p>
 
-                        <span>
-                            Personal Website
-                        </span>
+                    <a
+                        href="index.html"
+                        class="ocean-button secondary"
+                    >
+                        RETURN HOME
+                    </a>
 
-                    </div>
-
-                </div>
+                </article>
 
 
-                <div
-                    class="contact-card hologram-card reveal"
-                >
+                <article class="contact-card tilt-card reveal">
 
                     <div class="contact-icon">
-                        💬
+                        📸
                     </div>
 
-                    <div>
+                    <span>
+                        CHANNEL 03
+                    </span>
 
-                        <small>
-                            SOCIAL // INSTAGRAM
-                        </small>
+                    <h2>
+                        INSTAGRAM
+                    </h2>
 
-                        <h3>
-                            Supitchaya_Butta
-                        </h3>
+                    <p>
+                        Supitchaya_Butta
+                    </p>
 
-                        <span>
-                            Social Media
-                        </span>
-
+                    <div class="ocean-button secondary">
+                        SOCIAL CHANNEL
                     </div>
 
-                </div>
+                </article>
 
 
             </div>
@@ -288,46 +298,39 @@
         </section>
 
 
-        <!-- CTA -->
+        <section class="transmission reveal">
 
-        <section class="cta-section section-container">
-
-            <div class="cta-card hologram-card reveal">
-
-
-                <div class="cta-decoration">
-                    🐚
-                </div>
-
+            <div class="transmission-grid">
 
                 <div>
 
-                    <span class="eyebrow">
-                        THANK YOU
+                    <span class="section-kicker">
+                        FINAL TRANSMISSION
                     </span>
 
                     <h2>
-                        Thanks for
+                        THANKS FOR
                         <span>
-                            diving in!
+                            DIVING IN.
                         </span>
                     </h2>
-
-                    <p>
-                        ขอบคุณที่เข้ามาชมโลกใต้ทะเล
-                        และทำความรู้จักกับฉัน
-                    </p>
 
                 </div>
 
 
-                <a
-                    href="index.html"
-                    class="btn btn-light magnetic"
-                >
-                    กลับหน้าแรก
-                    <span>→</span>
-                </a>
+                <div class="signal-display">
+
+                    <div class="signal-ring"></div>
+
+                    <div class="signal-core">
+                        ✦
+                    </div>
+
+                    <span>
+                        SIGNAL RECEIVED
+                    </span>
+
+                </div>
 
             </div>
 
@@ -337,80 +340,26 @@
     </main>
 
 
-    <footer class="footer">
+    <footer class="site-footer">
 
-        <div class="container footer-grid">
+        <div class="footer-main">
 
             <div class="footer-brand">
-
-                <a
-                    href="index.html"
-                    class="logo logo-footer"
-                >
-
-                    <span class="logo-mark">
-                        S
-                    </span>
-
-                    <span>
-                        SUPITCHAYA
-                        <b>//</b>
-                        AQUA-X
-                    </span>
-
-                </a>
-
-                <p>
-                    Student Portfolio
-                    <br>
-                    ของสุพิชญา บุตรต๊ะ
-                </p>
-
+                🌊 MY OCEAN
             </div>
 
-
-            <div class="footer-class">
-
-                <span>
-                    STUDENT
-                </span>
-
-                <strong>
-                    มัธยมศึกษาปีที่ 3/2
-                </strong>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">หน้าแรก</a>
-                <a href="profile.html">ประวัติส่วนตัว</a>
-                <a href="education.html">การศึกษา</a>
-                <a href="hobby.html">งานอดิเรก</a>
-                <a href="contact.html">ติดต่อ</a>
-
+            <div class="footer-status">
+                ● COMMUNICATION SYSTEM ONLINE
             </div>
 
         </div>
 
-
-        <div class="container footer-bottom">
-
-            <p>
-                © 2026 Supitchaya Portfolio.
-            </p>
-
-            <p>
-                COMMUNICATION TERMINAL // ONLINE
-            </p>
-
+        <div class="footer-bottom">
+            © 2026 MY OCEAN // CONTACT
         </div>
 
     </footer>
 
-
-    <script src="script.js"></script>
 
 </body>
 </html>
